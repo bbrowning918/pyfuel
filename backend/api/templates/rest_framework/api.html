@@ -1,0 +1,17 @@
+{% extends "rest_framework/base.html" %}
+
+{% load static %}
+
+{% block bootstrap_theme %}
+    <link rel="stylesheet" href="{% static "css/bootstrap3.css" %}" type="text/css">
+{% endblock %}
+
+{% block title %}{% if name %}{{ name }} – {% endif %}Pyfuel API{% endblock %}
+
+{% block bootstrap_navbar_variant %}navbar-default{% endblock %}
+
+{% block branding %}
+    <a class='navbar-brand' rel="nofollow" href="/">
+        Pyfuel API
+    </a>
+{% endblock %}
