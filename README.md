@@ -9,7 +9,7 @@ Python rewrite of my fuel tracker from PHP. Largely just an excuse to play with 
 * [Django-environ](https://github.com/joke2k/django-environ)
 * mysqlclient [see below](README.md#Database)
 
-Above are the main pieces. Inside [*requirements.txt*](requirements.txt) is a ```pip freeze``` of the full environment.
+[*requirements.txt*](requirements.txt) is a ```pip freeze``` of the full environment. It contains some helper scripts for AWS ElasticBeanstalk hosting.
 
 ### Frontend
 * Node.js 8.10.0+
@@ -34,15 +34,16 @@ There were problems with some [functions only properly supporting positional arg
 ### Dashboard
 Served by the frontend providing a basic reporting overview of fuel and vehicle data
 
-### API Documentation
-Served by the backend it outlines all routes and endpoints available.
+### Browsable API Documentation
+Served by the backend it outlines all routes and endpoints available in addition to the API itself
 
 ### Authentication & Permissions
 Anonymouse requests are restricted to only safe methods (`GET`, `HEAD`, `OPTIONS`). All methods are available to authenticated requests.
 
-To authenticate, include your token in the HTTP `Authorization` header, prefixed by the string literal "Token". 
+To authenticate, include your token in the HTTP `Authorization` header, prefixed by the string literal "Token".
+The browsable API includes a log in option for accessing html forms of the protected methods.
 
-Example:
+Example header:
 
 ```
 Authorization: Token meowmeowmeow123

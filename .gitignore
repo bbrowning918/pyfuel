@@ -204,4 +204,4 @@ typings/
 .dynamodb/
 
 ### AWS ###
-.ebextensions
+.elasticbeanstalk

@@ -9,11 +9,7 @@ import os
 import environ
 
 env = environ.Env()
-environ.Env.read_env(
-    # DEBUG=(bool, False),
-    # SECRET_KEY=str,
-    # ALLOWED_HOSTS=(list, [])
-)
+environ.Env.read_env()
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -22,8 +18,22 @@ SECRET_KEY = env.str('SECRET_KEY')
 DEBUG = env.bool('DEBUG')
 
 ALLOWED_HOSTS = env.list('ALLOWED_HOSTS')
+
 CSRF_COOKIE_SECURE = env.bool('CSRF_COOKIE_SECURE')
+
 SESSION_COOKIE_SECURE = env.bool('SESSION_COOKIE_SECURE')
+
+SECURE_PROXY_SSL_HEADER = env.list('SECURE_PROXY_SSL_HEADER')
+SECURE_SSL_REDIRECT = env.bool('SECURE_SSL_REDIRECT')
+
+SECURE_HSTS_PRELOAD = env.bool('SECURE_HSTS_PRELOAD')
+SECURE_HSTS_SECONDS = env.int('SECURE_HSTS_SECONDS')
+SECURE_HSTS_INCLUDE_SUBDOMAINS = env.bool('SECURE_HSTS_INCLUDE_SUBDOMAINS')
+
+SECURE_CONTENT_TYPE_NOSNIFF = env.bool('SECURE_CONTENT_TYPE_NOSNIFF')
+SECURE_BROWSER_XSS_FILTER = env.bool('SECURE_BROWSER_XSS_FILTER')
+
+X_FRAME_OPTIONS = env.str('X_FRAME_OPTIONS')
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -94,7 +104,8 @@ DATABASES = {
         'USER': env.str('DATABASE_USER'),
         'PASSWORD': env.str('DATABASE_PASSWORD'),
         'OPTIONS': {
-            'init_command': "SET sql_mode='STRICT_TRANS_TABLES'"        }
+            'init_command': "SET sql_mode='STRICT_TRANS_TABLES'"
+        }
     }
 }
 
@@ -124,3 +135,4 @@ USE_L10N = True
 USE_TZ = True
 
 STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, "static")
