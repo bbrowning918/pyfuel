@@ -1,12 +1,12 @@
-import React, { Component } from 'react';
+import React, { Component } from 'react'
 import Container from 'react-bootstrap/Container'
-import Navbar from "react-bootstrap/Navbar";
-import Nav from "react-bootstrap/Nav";
-import { Route, Switch, Link} from "react-router-dom";
-import Fuel from "./Fuel";
-import Vehicles from "./Vehicles";
-import '../css/bootstrap.min.css';
-import '../css/index.css';
+import Navbar from "react-bootstrap/Navbar"
+import Nav from "react-bootstrap/Nav"
+import { Route, Switch, Link} from "react-router-dom"
+import Fuel from "./Fuel"
+import Vehicles from "./Vehicles"
+import '../css/bootstrap.min.css'
+import '../css/index.css'
 
 class App extends Component {
   render() {
@@ -20,7 +20,7 @@ class App extends Component {
               <Nav className="mr-auto">
                 <Link className="nav-link" to="/">Fuel</Link>
                 <Link className="nav-link" to="/vehicles">Vehicles</Link>
-                <Nav.Link href="http://localhost:8000/" target="_blank">API</Nav.Link>
+                <Nav.Link href={process.env.REACT_APP_API_HOST} target="_blank">API</Nav.Link>
               </Nav>
             </Navbar.Collapse>
           </Navbar>
@@ -39,4 +39,4 @@ class App extends Component {
   }
 }
 
-export default App;
+export default App

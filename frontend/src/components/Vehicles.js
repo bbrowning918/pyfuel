@@ -1,22 +1,20 @@
-import React, { Component } from "react";
-import Table from 'react-bootstrap/Table';
-import axios from 'axios';
+import React, { Component } from "react"
+import Table from 'react-bootstrap/Table'
+import axios from 'axios'
 
 class Vehicles extends Component {
   constructor(props) {
-    super(props);
+    super(props)
 
     this.state = {
       vehicles: [],
-    };
+    }
   }
 
   async componentDidMount() {
     axios.get('/vehicles/')
-      .then(res => {
-        console.log(res);
-        const vehicles = res.data;
-        this.setState({ vehicles });
+      .then(json => {
+        this.setState({ vehicles: json.data })
       })
   }
 
@@ -30,6 +28,8 @@ class Vehicles extends Component {
                 <th>Year</th>
                 <th>Make</th>
                 <th>Model</th>
+                <th>VIN</th>
+                <th>Displacement</th>
             </tr>
             </thead>
             <tbody>
@@ -38,6 +38,8 @@ class Vehicles extends Component {
                   <td>{vehicle.year}</td>
                   <td>{vehicle.manufacturer}</td>
                   <td>{vehicle.model}</td>
+                  <td>{vehicle.vin}</td>
+                  <td>{vehicle.engine_displacement_liters}L</td>
                 </tr>
               )}
             </tbody>
@@ -47,4 +49,4 @@ class Vehicles extends Component {
   }
 }
 
-export default Vehicles;
+export default Vehicles
