@@ -4,7 +4,7 @@ class Footer extends Component {
     render() {
         return (
             <div className="footer">
-            2019 Ben Browning - <a href="http://github.com/bbrowning918/pyfuel" target="_blank">GitHub</a>
+            2019 Ben Browning - <a href="http://github.com/bbrowning918/pyfuel" target="_blank" rel="noopener noreferrer">GitHub</a>
           </div>
         )
     }
