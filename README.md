@@ -9,7 +9,7 @@ Python rewrite of my fuel tracker from PHP. Largely just an excuse to play with 
 * [Django-environ](https://github.com/joke2k/django-environ)
 * mysqlclient [see below](README.md#Database)
 
-[*requirements.txt*](requirements.txt) is a ```pip freeze``` of the full environment. It contains some helper scripts for AWS ElasticBeanstalk hosting.
+[*backend/requirements.txt*](backend/requirements.txt) is a ```pip freeze``` of the full environment. It contains some helper scripts for AWS ElasticBeanstalk hosting.
 
 ### Frontend
 * Node.js 8.10.0+
@@ -17,25 +17,27 @@ Python rewrite of my fuel tracker from PHP. Largely just an excuse to play with 
 * [React Bootstrap](https://react-bootstrap.github.io/)
 * [React Router](https://reacttraining.com/react-router/)
 
-Again, the above are the main pieces and the full compliment is in [*dashboard/package.json*](dashboard/package.json). Managed using [Create React App](https://facebook.github.io/create-react-app/).
+Again, the above are the main pieces and the full compliment is in [*frontend/package.json*](frontend/package.json). Managed using [Create React App](https://facebook.github.io/create-react-app/).
 
 ## Environment Variables
 
-The included [*pyfuel/.env.example*](pyfuel/.env.example) file outlines the environment variables that are required by the backend
+The [*backend/pyfuel/.env.example*](backend/pyfuel/.env.example) file outlines the environment variables that are required by the backend, most are security related in Django.
+
+The [*frontend/.env.example*](frontend/.env.example) file outlines the environment variables for the front end.
 
 ## Database
 
 MySQL was used for legacy reasons. Using any supported Django backend on a fresh instance should not pose any issues. 
 
-There were problems with some [functions only properly supporting positional arguments on PostgreSQL](https://docs.djangoproject.com/en/2.1/ref/models/querysets/#distinct) which led to some limitations/frustrations.
+There were problems with some [functions only properly supporting positional arguments on PostgreSQL](https://docs.djangoproject.com/en/2.1/ref/models/querysets/#distinct) which led to some limitations/early frustrations.
 
 ## Overview
 
 ### Dashboard
-Served by the frontend providing a basic reporting overview of fuel and vehicle data
+Served by the frontend providing a basic reporting overview of fuel and vehicle data.
 
 ### Browsable API Documentation
-Served by the backend it outlines all routes and endpoints available in addition to the API itself
+Served by the backend it outlines all routes and endpoints available in addition to the API itself.
 
 ### Authentication & Permissions
 Anonymouse requests are restricted to only safe methods (`GET`, `HEAD`, `OPTIONS`). All methods are available to authenticated requests.
@@ -48,4 +50,3 @@ Example header:
 ```
 Authorization: Token meowmeowmeow123
 ```
-

@@ -1,90 +1,75 @@
 import React, { Component } from "react"
 import {Line} from 'react-chartjs-2'
-import axios from 'axios'
-import { groupBy } from 'lodash'
+import { groupBy, find } from 'lodash'
 import moment, { utc }  from 'moment'
 import { randomColor } from 'randomcolor'
 
 class Fuel extends Component {
   constructor(props) {
-    super(props)
-
-    this.state = {
-      fuel: []
-    }
+    super()
   }
 
-  //format inputs into chartable points
-  chartFuelEntry(date,liters,distance) {
+  //formats chartable points from a data set
+  //x axis is datetime
+  //y axis is liters per 100 km
+  chartFuelEconomy(date,liters,distance) {
     return {
       x: utc(date, moment.ISO_8601).format('MM/DD/YYYY HH:mm'),
       y: Number.parseFloat(liters / (distance / 100)).toFixed(2)
     }
   }
 
-  async componentDidMount() {
-    const {data} = await axios.get('/fuel/')
+  render() {
+    const dataset = []
 
-    const fuel = []
+    //produces an object composed of arrays keyed on 'vehicle' (ie a url)
+    //that contains the grouped elements (fuel objects)
+    const fuel_groups = groupBy(this.props.fuel, 'vehicle')
 
-    //produces an object composed of keys of 'vehicle' (url)
-    //each key is an array of the grouped elements (fuel url results)
-    const vehicles = groupBy(data, 'vehicle')
-
-    //vehicle[0] is the vehicle's url
-    //vehicle[1] holds an array of objects matching the response's json
-    for (const vehicle of Object.entries(vehicles)){
+    //fuel_group[0] is the vehicle's url identifier
+    //fuel_group[1] holds the array of fuel data
+    for (const fuel_group of Object.entries(fuel_groups)){
       
-      const vehicle_fuel = []
+      const data_points = []
       
-      //pull vehicle info from url
-      const info = await axios.get(vehicle[0])
+      //pull vehicle data based on matching vehicle url
+      const vehicle = find(this.props.vehicles, function(v) { return v.url === fuel_group[0]})
 
       //loop through the fuel data and map it to chartable objects (x,y)
-      for (const fuel_entry of Object.values(vehicle[1])){
-        vehicle_fuel.push(
-          this.chartFuelEntry(
+      for (const fuel_entry of Object.values(fuel_group[1])){
+        data_points.push(
+          this.chartFuelEconomy(
             fuel_entry['date'],
             fuel_entry['liters'],
             fuel_entry['distance']
-            )
           )
+        )
       }
       
-      //generate something hopefully different but not too different for the set
-      const colour = randomColor({luminosity: 'bright', hue: '#3498DB'})
+      //generates a colour based on the url (bright and same hue as sample)
+      const colour = randomColor({luminosity: 'bright', hue: '#3498DB', seed: fuel_group[0]})
 
-      //construct our dataset for this vehicle
-      fuel.push({
-        label: `${info.data.year} ${info.data.manufacturer} ${info.data.model}`,
+      //construct and format our dataset for this vehicle and add to the set
+      dataset.push({
+        label: `${vehicle.year} ${vehicle.manufacturer} ${vehicle.model}`,
         fill: false,
         backgroundColor: colour,
-        borderColor: '#ecf0f1',
-        borderCapStyle: 'butt',
-        borderJoinStyle: 'butt',
-        pointBorderWidth: 1,
+        borderColor: colour,
         lineTension: 0,
         pointHoverRadius: 5,
         pointRadius: 5,
-        pointHitRadius: 15,
-        data: vehicle_fuel
+        pointHitRadius: 5,
+        data: data_points
       })
     }
 
-    this.setState({
-      fuel : fuel
-    })
-  }
-
-  render() {
     return (
       <div>
-      <h2>Fuel</h2>
+      <h2>Fuel Economy</h2>
         <Line 
-          data={{ datasets: this.state.fuel }}
+          data={{ datasets: dataset }}
+          height={ 110 }
           options={{
-            responsive: true,
-            hover: 'dataset',
             scales: {
               xAxes: [{
                 type: 'time',
@@ -106,7 +91,7 @@ class Fuel extends Component {
           }}
         />
       </div>
-    );
+    )
   }
 }
 
